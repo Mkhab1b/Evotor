@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="ru.qualitylab.evotor.evotorMKH">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Разрешение на использование сканера штрихкодов -->
+    <uses-permission android:name="ru.evotor.devices.SCANNER_RECEIVER" /> <!-- Разрешение на печать своих данных в чеке -->
+    <uses-permission android:name="ru.evotor.permission.receipt.printExtra.SET" /> <!-- Разрешение на передачу чека по email или на телефон -->
+    <uses-permission android:name="ru.evotor.permission.receipt.print.INTERNET_RECEIPT" /> <!-- Поддержка сторонней платёжной системы -->
+    <uses-permission android:name="ru.evotor.permission.PAYMENT_SYSTEM" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/kirgu"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:roundIcon="@mipmap/kirgu"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:targetApi="n">
+        <activity
+            android:name=".Account"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity android:name=".Auth">
+
+            <!-- Фон, на котором отображается иконка приложения. -->
+            <meta-data
+                android:name="ru.evotor.launcher.BACKGROUND_COLOR"
+                android:value="#008954" />
+
+            <!-- Чтобы заменить кнопку Продажа в интерфейсе терминала -->
+            <intent-filter>
+                <action android:name="ru.evotor.intent.action.SELL_MAIN" />
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.EVOTOR" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="app_uuid"
+            android:value="36a6387a-3776-417a-9139-a3215a752b40" />
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".CompleteOrders"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ItemOrder"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity> <!-- Получение событий об открытии чека, обновлении базы продуктов или результате изменения чека -->
+        <receiver
+            android:name=".GlobalReceiver"
+            android:enabled="true"
+            android:exported="true">
+
+            <!-- Чек продажи был успешно открыт -->
+            <intent-filter>
+                <action android:name="evotor.intent.action.receipt.sell.OPENED" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <!-- Чек продажи был очищен -->
+            <intent-filter>
+                <action android:name="evotor.intent.action.receipt.sell.CLEARED" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <!-- Чек продажи был успешно закрыт -->
+            <intent-filter>
+                <action android:name="evotor.intent.action.receipt.sell.RECEIPT_CLOSED" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <!-- Внесение денег -->
+            <intent-filter>
+                <action android:name="evotor.intent.action.cashOperation.IN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>
